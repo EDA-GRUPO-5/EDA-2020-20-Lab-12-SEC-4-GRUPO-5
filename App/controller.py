@@ -92,8 +92,14 @@ def totalConnections(citibike):
     """
     return model.totalConnections(citibike)
 
-def connectedComponents(citibike):
+def numSCC(citibike):
     """
     Numero de componentes fuertemente conectados
     """
     return model.numSCC(citibike)
+
+def sameSCC(citibike, station1, station2):
+    """
+    Numero de componentes fuertemente conectados
+    """
+    return model.sameSCC(citibike, station1, station2)
