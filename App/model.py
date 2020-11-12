@@ -95,7 +95,7 @@ def addRoutConnections(citibike):
     stationsiterator = it.newIterator(lststations)
     while it.hasNext(stationsiterator):
         key = it.next(stationsiterator)
-        lstroutes = m.get(citibike['stops'], key)['value']
+        lstroutes = m.get(citibike['stations'], key)['value']
         prevrout = None
         routeiterator = it.newIterator(lstroutes)
         while it.hasNext(routeiterator):
@@ -120,12 +120,10 @@ def addTrip(citibike, trip):
 
 
 def addStation(citibike, stationid):
-
-    if not gr.containsVertex(citibike['connections'], stationid):
-        gr.insertVertex(citibike['connections'], stationid)
     
+    if not gr.containsVertex(citibike['connections'], stationid):
+            gr.insertVertex(citibike['connections'], stationid)
     return citibike
-
 
 def addConnection(citibike, origin, destination, duration):
 
@@ -157,8 +155,8 @@ def numSCC(citibike):
     citibike['components'] = scc.KosarajuSCC(citibike['connections'])
     return scc.connectedComponents(citibike['components'])
 
-def sameCC(sc, satation1, station2):
-    return scc.stronglyConnected(sc, satation1, station2)
+def sameCC(citibike, satation1, station2):
+    return scc.stronglyConnected(ciitbike, satation1, station2)
 
 # ==============================
 # Funciones Helper
