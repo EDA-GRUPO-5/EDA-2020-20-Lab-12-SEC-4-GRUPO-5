@@ -40,12 +40,60 @@ recae sobre el controlador.
 #  Inicializacion del catalogo
 # ___________________________________________________
 
+def init():
+    """
+    Llama la funcion de inicializacion  del modelo.
+    """
+    # analyzer es utilizado para interactuar con el modelo
+    citibike = model.newCitibike()
+    return citibike
 
 # ___________________________________________________
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
 
+def loadFile(citibike, tripfile):
+    """
+    Carga los datos de los archivos CSV en el modelo.
+    Se crea un arco entre cada par de estaciones que
+    pertenecen al mismo servicio y van en el mismo sentido.
+
+    addRouteConnection crea conexiones entre diferentes rutas
+    servidas en una misma estación.
+    """
+    tripfile = cf.data_dir + tripfile
+    input_file = csv.DictReader(open(tripfile, encoding="utf-8"),
+                                delimiter=",")
+    laststation = None
+    for station in input_file:
+        if laststation is not None:
+            samestation = laststation['start station id'] == station['start station id']
+            samedirection = laststation['end station id'] == station['end station id']
+            if samestation and samedirection:
+                model.addSationConnection(citibike, laststation, station)
+        laststation = station
+    model.addRouteConnections(citibike)
+    return citibike
+
 # ___________________________________________________
 #  Funciones para consultas
 # ___________________________________________________
+
+def totalStations(citibike):
+    """
+    Total de estaciones de bicicleta
+    """
+    return model.totalStations(citibike)
+
+def totalConnections(citibike):
+    """
+    Total de enlaces entre las estaciones
+    """
+    return model.totalConnections(citibike)
+
+def connectedComponents(citibike):
+    """
+    Numero de componentes fuertemente conectados
+    """
+    return model.numSCC(citibike)
