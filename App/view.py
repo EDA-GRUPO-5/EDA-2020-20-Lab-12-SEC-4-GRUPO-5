@@ -77,8 +77,19 @@ def optionTwo():
 
 
 def optionThree():
+    station1 = input("Ingrese la estación 1: ") 
+    station2 = input("Ingrese la estación 2: ")
     print('El número de componentes conectados es: ' +
-          str(controller.connectedComponents(citibike)))
+          str(controller.numSCC(citibike)))
+    sameSCC = controller.sameSCC(citibike, station1, station2)
+    if sameSCC == True:
+        print("La estación " + station1 + " y la estación " + station2 + 
+                " SÍ pertenecen al mismo cluster.")
+    else:
+        print("La estación " + station1 + " y la estación " + station2 + 
+            " NO pertenecen al mismo cluster.")      
+    
+    
 
 """
 Menu principal
